@@ -16,9 +16,9 @@ def main():
         _, _, _, _, _, there_is_a_winner = game.answer_observation(piece_to_move)
 
     print("Saving history to numpy file")
-    g.save_hist(f"game_history.npy")
+    game.save_hist(f"game_history.npy")
     print("Saving game video")
-    g.save_hist_video(f"game_video.mp4")
+    game.save_hist_video(f"game_video.mp4")
 
 if __name__ == "__main__":
     main()
