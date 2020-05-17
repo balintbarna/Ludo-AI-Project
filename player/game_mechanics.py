@@ -50,13 +50,17 @@ def can_build_tower(dest, own_pieces_list):
 def transform_enemy_piece(own_piece_pos, enemy_piece_pos, list_index):
     if enemy_piece_pos > enemy_piece_max_reachable_pos: # in the finish line, cannot interact with other players
         return 1000
+    if enemy_piece_pos == 0: # piece have not entered the game yet, cannot interact with other players
+        return 1000
     
-    offset = list_index * character_pos_offset
+    offset_mult = list_index + 1
+    offset = offset_mult * character_pos_offset
     offseted_pos = enemy_piece_pos + offset
     if offseted_pos > enemy_piece_max_reachable_pos: # unreachable distance
         offseted_pos -= full_map
     while (offseted_pos - own_piece_pos) > half_map: # distances larger than a half map are hardly relevant
         offseted_pos -= full_map
+    return offseted_pos
 
 def is_safe(pos):
     return pos in safe_globes
@@ -68,6 +72,10 @@ def can_kill_enemy(dest, enemy_pieces_lists):
             transformed_enemy = transform_enemy_piece(dest, enemy_piece, i)
             if dest == transformed_enemy:
                 if (not is_safe(enemy_piece)) or dest == entered_pos:
+                    # print("KILL")
+                    # print("dest " + str(dest))
+                    # print("enemy " + str(enemy_piece))
+                    # print("transformed enemy " + str(transformed_enemy))
                     return True
     return False
 
