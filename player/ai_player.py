@@ -6,6 +6,7 @@ from artificial_intelligence.neural_network import neural_network
 
 class AiPlayer(AbstractPlayer):
     def __init__(self, number_of_inputs, ann):
+        super().__init__()
         self.ann = ann
         self.inputs = np.zeros(number_of_inputs)
     

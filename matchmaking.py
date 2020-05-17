@@ -28,6 +28,8 @@ def play(players):
     # game.save_hist(f"game_history.npy")
     # print("Saving game video")
     # game.save_hist_video(f"game_video.mp4")
+
+    players[player_i].wincount += 1
     return player_i
 
 def play_against_randoms(special_player):
@@ -43,4 +45,13 @@ def play_many_against_randoms(special_player, rounds = 10):
         if win:
             wincount += 1
     return wincount
-    
+
+def matchmake_with_randoms(non_random_players):
+    players = non_random_players
+    while len(non_random_players) < 4:
+        players.append(RandomPlayer())
+    return players
+
+def play_rounds(players, rounds):
+    for i in range(0, rounds):
+        play(players)
