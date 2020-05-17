@@ -46,7 +46,7 @@ def reset_win_counts(players):
 
 def create_ais_matchmake_with_randoms_and_measure_success():
     ai_players = create_ai_players_with_random_weights(10)
-    ai_players.append(hand_create_ai)
+    ai_players.append(hand_create_ai())
     for index, player in enumerate(ai_players):
         # print("player " + str(index))
         matchmake_with_randoms_and_measure_success(player)
