@@ -15,8 +15,14 @@ def create_ais_matchmake_with_randoms_and_measure_success():
         print("player " + str(index))
         matchmake_with_randoms_and_measure_success(player)
 
+    print("sorting list")
+    ai_players.sort(key=lambda x: x.wincount, reverse=True)
+    for index, player in enumerate(ai_players):
+        print("player " + str(index))
+        print("wincount " + str(player.wincount))
+
 def matchmake_with_randoms_and_measure_success(player):
-    rounds = 20
+    rounds = 50
     players = mm.matchmake_with_randoms([player])
     mm.play_rounds(players, rounds)
     success_percentage = 100 * player.wincount / rounds
