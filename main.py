@@ -11,12 +11,12 @@ def main():
 
     while not there_is_a_winner:
         observation, player_i = game.get_observation()
-        (dice, move_pieces, player_pieces, enemy_pieces, player_is_a_winner, there_is_a_winner) = observation
+        (dice, movable_pieces, player_pieces, enemy_pieces, player_is_a_winner, there_is_a_winner) = observation
 
         player = players[player_i]
 
-        if len(move_pieces) > 0:
-            print('player: #' + str(player_i) + '\t' + str(observation))
+        if len(movable_pieces) > 0:
+            print('player: #' + str(player_i) + '\t' + str(dice) + '\t' + str(movable_pieces.tolist()) + '\t\t' + str(player_pieces.tolist()) + '\t\t' + str(enemy_pieces.tolist()))
             piece_to_move = player.select_piece_to_move(observation)
         else:
             print('-')
@@ -31,18 +31,19 @@ def main():
             except AttributeError:
                 pass
 
-    print("Saving history to numpy file")
-    game.save_hist(f"game_history.npy")
-    print("Saving game video")
-    game.save_hist_video(f"game_video.mp4")
+    # print("Saving history to numpy file")
+    # game.save_hist(f"game_history.npy")
+    # print("Saving game video")
+    # game.save_hist_video(f"game_video.mp4")
 
 def create_players():
     players = []
-    num_rand = 1
+    num_rand = 3
+    rand_player = RandomPlayer()
     for i in range(0,num_rand):
-        players.append(RandomPlayer())
+        players.append(rand_player)
     for i in range(0,4-num_rand):
-        players.append(AiPlayer())
+        players.append(AiPlayer.fromRandom())
     return players
 
 if __name__ == "__main__":

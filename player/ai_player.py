@@ -5,12 +5,23 @@ from artificial_intelligence.transfer_function import sigmoid
 from artificial_intelligence.neural_network import neural_network
 
 class AiPlayer(AbstractPlayer):
-    def __init__(self):
-        self.number_of_inputs = 6
+    def __init__(self, number_of_inputs, ann):
+        self.ann = ann
+        self.inputs = np.zeros(number_of_inputs)
+    
+    @classmethod
+    def fromRandom(cls):
+        number_of_inputs = 6
         layers = [1]
-        self.ann = neural_network.fromEmpty(transfer_function = sigmoid, number_of_inputs = self.number_of_inputs, number_of_neurons_per_layer = layers)
-        self.ann.randomize_weights(100)
-        self.inputs = np.zeros(self.number_of_inputs)
+        ann = neural_network.fromEmpty(transfer_function = sigmoid, number_of_inputs = number_of_inputs, number_of_neurons_per_layer = layers)
+        ann.randomize_weights(100)
+        return cls(number_of_inputs, ann)
+    
+    @classmethod
+    def fromWeights(cls, weights_list_list_list):
+        number_of_inputs = 6
+        ann = neural_network.fromWeights(sigmoid, weights_list_list_list)
+        return cls(number_of_inputs, ann)
 
     def select_piece_to_move(self, observation):
         (dice, move_pieces, player_pieces, enemy_pieces, player_is_a_winner, there_is_a_winner) = observation
