@@ -2,10 +2,26 @@ import numpy as np
 from artificial_intelligence.transfer_function import sigmoid
 
 class neuron():
-    def __init__(self, previous_layer_number_of_neurons, transfer_function):
+    def __init__(self, weights_np_array, transfer_function):
         self.calculated_output = 0.0
-        self.weights = np.zeros(previous_layer_number_of_neurons + 1) # extra spot for bias
+        self.weights = weights_np_array
         self.transfer_function = transfer_function
+
+    @classmethod
+    def fromEmpty(cls, previous_layer_number_of_neurons, transfer_function):
+        weights = np.zeros(previous_layer_number_of_neurons + 1) # extra spot for bias
+        return cls(weights, transfer_function)
+    
+    @classmethod
+    def fromRandom(cls, previous_layer_number_of_neurons, transfer_function):
+        obj = cls.fromEmpty(previous_layer_number_of_neurons, transfer_function)
+        obj.randomize_weights(100)
+        return obj
+    
+    @classmethod
+    def fromWeights(cls, weights_list, transfer_function):
+        weights = np.array(weights_list)
+        return cls(weights, transfer_function)
 
     def calculate_output(self, previous_layer_values):
         bias_weight = self.weights[0]
@@ -16,6 +32,9 @@ class neuron():
         return self.calculated_output
 
     def get_weights(self):
+        '''
+        returns a list of doubles which are the weights belonging to the previous layer outputs
+        '''
         return self.weights.tolist()
     
     def randomize_weights(self, percentage):
@@ -27,4 +46,4 @@ class neuron():
                 self.weights[i] = new_weights[i]
 
 if __name__ == "__main__":
-    my_neuron = neuron(5, sigmoid)
+    my_neuron = neuron.fromEmpty(5, sigmoid)

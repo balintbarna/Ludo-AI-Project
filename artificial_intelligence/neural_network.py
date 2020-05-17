@@ -21,6 +21,9 @@ class neural_network():
         return previous_layer_outputs
     
     def get_weights(self):
+        '''
+        returns a list of a list of a list of doubles, which are all the weights of all the neurons in all the layers
+        '''
         weights_arrays_of_arrays = []
         for i in range(0, len(self.layers)):
             weights_arrays_of_arrays.append(self.layers[i].get_weights())

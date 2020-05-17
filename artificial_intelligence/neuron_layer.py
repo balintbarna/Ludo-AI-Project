@@ -7,7 +7,7 @@ class neuron_layer():
         self.neurons = []
         self.calculated_outputs = np.zeros(number_of_neurons)
         for _ in range(0, number_of_neurons):
-            self.neurons.append(neuron(previous_layer_number_of_neurons, transfer_function))
+            self.neurons.append(neuron.fromEmpty(previous_layer_number_of_neurons, transfer_function))
 
     def __len__(self):
         return len(self.calculated_outputs)
@@ -21,6 +21,9 @@ class neuron_layer():
         return self.calculated_outputs
 
     def get_weights(self):
+        '''
+        returns a list of a list of doubles, that are all the weights of all the neurons in this layer
+        '''
         weights_arrays = []
         for i in range(0, len(self.neurons)):
             weights_arrays.append(self.neurons[i].get_weights())
