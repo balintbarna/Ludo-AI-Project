@@ -12,12 +12,11 @@ def create_child(dad, mom):
         child = pick_random(dad, mom)
         return child
 
-def introduce_mutation(weights):
+def introduce_mutation(weights, max_mutation_amount = 1):
     for index, elem in enumerate(weights):
         if islist(elem):
             introduce_mutation(elem)
         else:
-            max_mutation_amount = 1
             mutation = np.random.rand() * 2 - 1
             mutation *= max_mutation_amount
             weights[index] += mutation
