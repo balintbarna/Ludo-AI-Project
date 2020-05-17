@@ -22,7 +22,7 @@ def piece_destination(piece_pos, dice):
             return start_pos
 
     dest = piece_pos + dice
-    if dice > goal_pos:
+    if dest > goal_pos:
         dest = goal_pos - dice
     elif dest in star_boost_six:
         dest += 6
@@ -80,3 +80,11 @@ def potential_player_progress(own_pieces, piece_index, dice):
             summer += own_pieces[i]
     score = summer / max_score_divider
     return score # 0-1 point; 0: all in base; 1: all in goal (win)
+
+
+if __name__ == "__main__":
+    dest = piece_destination(56, 5)
+    print(dest)
+    val = dest + 59*3
+    val /=max_score_divider
+    print(val)
