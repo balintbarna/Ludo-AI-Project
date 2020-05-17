@@ -6,7 +6,7 @@ from artificial_intelligence.neural_network import neural_network
 
 class AiPlayer(AbstractPlayer):
     def __init__(self):
-        self.number_of_inputs = 10
+        self.number_of_inputs = 6
         layers = [1]
         self.ann = neural_network(transfer_function = sigmoid, number_of_inputs = self.number_of_inputs, number_of_neurons_per_layer = layers)
         self.ann.randomize_weights(100)
@@ -26,10 +26,20 @@ class AiPlayer(AbstractPlayer):
         return piece_to_move
 
     def make_inputs(self, observation, piece_index):
-        (dice, move_pieces, player_pieces, enemy_pieces, player_is_a_winner, there_is_a_winner) = observation
+        (dice, movable_pieces, player_pieces, enemy_pieces, player_is_a_winner, there_is_a_winner) = observation
         piece_pos = player_pieces[piece_index]
         dest = gm.piece_destination(piece_pos, dice)
-        at_start = gm.is_start(piece_pos)
         can_enter = gm.can_enter_game(piece_pos, dice)
         can_finish = gm.is_goal(dest)
+        tower = gm.can_build_tower(dest, player_pieces)
+        safe = gm.is_safe(dest)
+        kill = gm.can_kill_enemy(dest, enemy_pieces)
+        progress = gm.potential_player_progress(player_pieces, piece_index, dice)
+
+        self.inputs[0] = 1 if can_enter else 0
+        self.inputs[1] = 1 if can_finish else 0
+        self.inputs[2] = 1 if tower else 0
+        self.inputs[3] = 1 if safe else 0
+        self.inputs[4] = 1 if kill else 0
+        self.inputs[5] = progress
 

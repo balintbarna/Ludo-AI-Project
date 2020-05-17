@@ -12,6 +12,7 @@ character_pos_offset = quarter_map
 half_map = 2*quarter_map
 full_map = 2*half_map
 enemy_piece_max_reachable_pos = 53
+max_score_divider = 4.0*goal_pos
 
 def piece_destination(piece_pos, dice):
     if is_start(piece_pos):
@@ -70,5 +71,12 @@ def can_kill_enemy(dest, enemy_pieces_lists):
                     return True
     return False
 
-def potential_player_progress():
-    pass
+def potential_player_progress(own_pieces, piece_index, dice):
+    summer = 0
+    for i in range(0, len(own_pieces)):
+        if piece_index is i:
+            summer += piece_destination(own_pieces[i], dice)
+        else:
+            summer += own_pieces[i]
+    score = summer / max_score_divider
+    return score # 0-1 point; 0: all in base; 1: all in goal (win)
