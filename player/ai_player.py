@@ -24,20 +24,20 @@ class AiPlayer(AbstractPlayer):
         return cls(number_of_inputs, ann)
 
     def select_piece_to_move(self, observation):
-        (dice, move_pieces, player_pieces, enemy_pieces, player_is_a_winner, there_is_a_winner) = observation
+        (_, moveable_pieces, _, _, _, _) = observation
         max_value = 0
         max_value_index = 0
-        for i in range(0, len(move_pieces)):
-            self.make_inputs(observation, move_pieces[i])
+        for i in range(0, len(moveable_pieces)):
+            self.make_inputs(observation, moveable_pieces[i])
             value = self.ann.calculate_outputs(self.inputs)[0]
             if(value > max_value):
                 max_value = value
                 max_value_index = i
-        piece_to_move = move_pieces[max_value_index]
+        piece_to_move = moveable_pieces[max_value_index]
         return piece_to_move
 
     def make_inputs(self, observation, piece_index):
-        (dice, movable_pieces, player_pieces, enemy_pieces, player_is_a_winner, there_is_a_winner) = observation
+        (dice, _, player_pieces, enemy_pieces, _, _) = observation
         piece_pos = player_pieces[piece_index]
         dest = gm.piece_destination(piece_pos, dice)
         can_enter = gm.can_enter_game(piece_pos, dice)
@@ -53,4 +53,9 @@ class AiPlayer(AbstractPlayer):
         self.inputs[3] = 1 if safe else 0
         self.inputs[4] = 1 if kill else 0
         self.inputs[5] = progress
+
+        # print("piece_pos\tdest\tcan_enter\tcan_finish\ttower\tsafe\tkill\n"
+        # +str(piece_pos)+'\t'+str(dest)+'\t'+str(can_enter)+'\t'+str(can_finish)+'\t'+str(tower)+'\t'+str(safe)+'\t'+str(kill))
+        # print("inputs")
+        # print(self.inputs)
 

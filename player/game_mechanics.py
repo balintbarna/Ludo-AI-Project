@@ -5,7 +5,7 @@ dice_enter_game = [6]
 star_boost_seven = [5, 18, 31, 44]
 star_boost_six = [12, 25, 38]
 safe_globes = [1, 9, 14, 22, 27, 35, 40, 48, 53]
-star_boost_eight = 51
+star_boost_eight = [51]
 safe_spots = []
 quarter_map = 13
 character_pos_offset = quarter_map
@@ -28,15 +28,15 @@ def piece_destination(piece_pos, dice):
         dest += 6
     elif dest in star_boost_seven:
         dest += 7
-    elif dest is star_boost_eight:
+    elif dest in star_boost_eight:
         dest += 8
     return dest
 
 def is_goal(pos):
-    return pos is goal_pos
+    return pos == goal_pos
 
 def is_start(pos):
-    return pos is start_pos
+    return pos == start_pos
 
 def can_enter_game(pos, dice):
     return dice in dice_enter_game and is_start(pos)
@@ -66,15 +66,15 @@ def can_kill_enemy(dest, enemy_pieces_lists):
         enemy_pieces_list = enemy_pieces_lists[i]
         for enemy_piece in enemy_pieces_list:
             transformed_enemy = transform_enemy_piece(dest, enemy_piece, i)
-            if dest is transformed_enemy:
-                if enemy_piece not in safe_globes or dest is entered_pos:
+            if dest == transformed_enemy:
+                if (not is_safe(enemy_piece)) or dest == entered_pos:
                     return True
     return False
 
 def potential_player_progress(own_pieces, piece_index, dice):
     summer = 0
     for i in range(0, len(own_pieces)):
-        if piece_index is i:
+        if piece_index == i:
             summer += piece_destination(own_pieces[i], dice)
         else:
             summer += own_pieces[i]
