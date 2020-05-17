@@ -31,7 +31,7 @@ class neural_network():
     
     @classmethod
     def fromWeights(cls, transfer_function, weights_list_list_list):
-        number_of_inputs = len(weights_list_list_list[0][0]) # number of weights in the first neuron in the first layer
+        number_of_inputs = len(weights_list_list_list[0][0]) - 1 # number of weights in the first neuron in the first layer minus the bias weight
         layers_list = []
         for weights_list_list in weights_list_list_list:
             layers_list.append(neuron_layer.fromWeights(weights_list_list, transfer_function))
