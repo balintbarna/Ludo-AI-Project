@@ -8,7 +8,7 @@ class AiPlayer(AbstractPlayer):
     def __init__(self):
         self.number_of_inputs = 6
         layers = [1]
-        self.ann = neural_network(transfer_function = sigmoid, number_of_inputs = self.number_of_inputs, number_of_neurons_per_layer = layers)
+        self.ann = neural_network.fromEmpty(transfer_function = sigmoid, number_of_inputs = self.number_of_inputs, number_of_neurons_per_layer = layers)
         self.ann.randomize_weights(100)
         self.inputs = np.zeros(self.number_of_inputs)
 

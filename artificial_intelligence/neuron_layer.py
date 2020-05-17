@@ -3,11 +3,30 @@ from artificial_intelligence.neuron import neuron
 from artificial_intelligence.transfer_function import sigmoid
 
 class neuron_layer():
-    def __init__(self, number_of_neurons, previous_layer_number_of_neurons, transfer_function):
-        self.neurons = []
-        self.calculated_outputs = np.zeros(number_of_neurons)
+    def __init__(self, neurons_list):
+        self.neurons = neurons_list
+        self.calculated_outputs = np.zeros(len(neurons_list))
+
+    @classmethod
+    def fromEmpty(cls, number_of_neurons, previous_layer_number_of_neurons, transfer_function):
+        neurons_list = []
         for _ in range(0, number_of_neurons):
-            self.neurons.append(neuron.fromEmpty(previous_layer_number_of_neurons, transfer_function))
+            neurons_list.append(neuron.fromEmpty(previous_layer_number_of_neurons, transfer_function))
+        return cls(neurons_list)
+
+    @classmethod
+    def fromRandom(cls, number_of_neurons, previous_layer_number_of_neurons, transfer_function):
+        neurons_list = []
+        for _ in range(0, number_of_neurons):
+            neurons_list.append(neuron.fromRandom(previous_layer_number_of_neurons, transfer_function))
+        return cls(neurons_list)
+
+    @classmethod
+    def fromWeights(cls, weights_list_list, transfer_function):
+        neurons_list = []
+        for weights_list in weights_list_list:
+            neurons_list.append(neuron.fromWeights(weights_list, transfer_function))
+        return cls(neurons_list)
 
     def __len__(self):
         return len(self.calculated_outputs)
@@ -34,4 +53,4 @@ class neuron_layer():
             self.neurons[i].randomize_weights(percentage)
 
 if __name__ == "__main__":
-    my_layer = neuron_layer(5, 5, sigmoid)
+    my_layer = neuron_layer.fromEmpty(5, 5, sigmoid)
