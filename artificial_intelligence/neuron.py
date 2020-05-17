@@ -1,5 +1,5 @@
 import numpy as np
-from neural_net.transfer_function import sigmoid
+from artificial_intelligence.transfer_function import sigmoid
 
 class neuron():
     def __init__(self, previous_layer_number_of_neurons, transfer_function):

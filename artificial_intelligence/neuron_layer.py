@@ -1,6 +1,6 @@
 import numpy as np
-from neural_net.neuron import neuron
-from neural_net.transfer_function import sigmoid
+from artificial_intelligence.neuron import neuron
+from artificial_intelligence.transfer_function import sigmoid
 
 class neuron_layer():
     def __init__(self, number_of_neurons, previous_layer_number_of_neurons, transfer_function):

@@ -1,6 +1,6 @@
 import numpy as np
-from neural_net.neuron_layer import neuron_layer
-from neural_net.transfer_function import *
+from artificial_intelligence.neuron_layer import neuron_layer
+from artificial_intelligence.transfer_function import *
 
 class neural_network():
     def __init__(self, transfer_function, number_of_inputs, number_of_neurons_per_layer):
