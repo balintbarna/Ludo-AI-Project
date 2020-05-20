@@ -4,9 +4,10 @@ from player.random_player import RandomPlayer
 from player.ai_player import AiPlayer
 import matchmaking as mm
 import artificial_intelligence.learning as lrn
+import visualizer as viz
 
-generations = 10
-children = 8
+generations = 25
+ai_boys = 20
 rounds = 100
 
 def main():
@@ -18,25 +19,39 @@ def main():
 def train_randomly_created_ais_over_generations():
     # first generation
     players = create_ais_matchmake_with_randoms_and_measure_success()
+    wincounts = []
+    for player in players:
+        wincounts.append(player.wincount)
+    print("wincounts " + str(wincounts))
+    viz.add_generation_wincounts(wincounts)
+    viz.add_player_weights(players[0])
     for i in range(0, generations):
         print('----------- GENERATION ' + str(i+1) + ' -----------')
         players = players[:2] # keep only the two winners
-        add_children(players, children)
+        add_children(players, i / generations)
         reset_win_counts(players)
-        for index, player in enumerate(players):
+        for player in players:
             matchmake_with_randoms_and_measure_success(player)
-        print("sorting list")
+        # print("sorting list")
         players.sort(key=lambda x: x.wincount, reverse=True)
-        for index, player in enumerate(players):
-            print("wincount " + str(player.wincount))
+        wincounts = []
+        for player in players:
+            wincounts.append(player.wincount)
+        print("wincounts " + str(wincounts))
+        viz.add_generation_wincounts(wincounts)
+        viz.add_player_weights(players[0])
+
     winner = players[0]
     print('best player wins: ' + str(winner.wincount))
     print('best player genome: ' + str(winner.ann.get_weights()))
+    viz.show_plot()
 
-def add_children(players, children_count):
-    for _ in range(0, children_count):
+def add_children(players, generation_fraction):
+    mutation_amount = (1-generation_fraction) * 0.4
+    print("mutation amount: " + str(mutation_amount))
+    while len(players) < ai_boys:
         child = lrn.create_child(players[0].ann.get_weights(), players[1].ann.get_weights())
-        lrn.introduce_mutation(child, 0.4)
+        lrn.introduce_mutation(child, mutation_amount)
         child_player = AiPlayer.fromWeights(child)
         players.append(child_player)
 
@@ -45,17 +60,17 @@ def reset_win_counts(players):
         player.wincount = 0
 
 def create_ais_matchmake_with_randoms_and_measure_success():
-    ai_players = create_ai_players_with_random_weights(10)
+    ai_players = create_ai_players_with_random_weights(ai_boys-1)
     ai_players.append(hand_create_ai())
     for index, player in enumerate(ai_players):
         # print("player " + str(index))
         matchmake_with_randoms_and_measure_success(player)
 
-    print("sorting list")
+    # print("sorting list")
     ai_players.sort(key=lambda x: x.wincount, reverse=True)
-    for index, player in enumerate(ai_players):
+    # for index, player in enumerate(ai_players):
         # print("player " + str(index))
-        print("wincount " + str(player.wincount))
+        # print("wincount " + str(player.wincount))
     return ai_players
 
 def matchmake_with_randoms_and_measure_success(player):
