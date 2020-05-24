@@ -26,13 +26,13 @@ class NeuralNetwork():
     
     @classmethod
     def fromRandom(cls, transfer_function, number_of_inputs, number_of_neurons_per_layer):
+        input_array = np.zeros(number_of_inputs)
         layers_list = []
         number_of_layers = len(number_of_neurons_per_layer)
         for i in range(0, number_of_layers):
             current_layer_neurons = number_of_neurons_per_layer[i]
             layers_list.append(NeuronLayer.fromRandom(current_layer_neurons, number_of_inputs, transfer_function))
             number_of_inputs = current_layer_neurons
-        input_array = np.zeros(number_of_inputs)
         return cls(input_array, layers_list)
     
     @classmethod
