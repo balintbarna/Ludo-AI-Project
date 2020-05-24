@@ -48,7 +48,7 @@ class NeuralNetwork():
         return len(self._layers)
     
     def get_input_size(self):
-        return len(self.get_input_array)
+        return len(self.get_input_array())
     
     def get_input_array(self):
         return self._input
@@ -87,12 +87,13 @@ class NeuralNetwork():
         return lrn.abs_max(arr)
     
     def mix_weights(self, other):
-        sl = self._layers()
-        ol = other._layers()
+        sl = self._layers
+        ol = other._layers
         cl = []
         for i in range(0, len(self)):
             cl.append(sl[i].mix_weights(ol[i]))
-        child = NeuralNetwork(self.get_input_size(), cl)
+        child_input_array = np.zeros(self.get_input_size())
+        child = NeuralNetwork(child_input_array, cl)
         return child
 
 if __name__ == "__main__":
