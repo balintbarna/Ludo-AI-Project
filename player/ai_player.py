@@ -13,8 +13,7 @@ class AiPlayer(AbstractPlayer):
     def fromRandom(cls):
         number_of_inputs = 6
         layers = [1]
-        ann = NeuralNetwork.fromEmpty(transfer_function = sigmoid, number_of_inputs = number_of_inputs, number_of_neurons_per_layer = layers)
-        ann.randomize_weights(100)
+        ann = NeuralNetwork.fromRandom(transfer_function = sigmoid, number_of_inputs = number_of_inputs, number_of_neurons_per_layer = layers)
         return cls(ann)
     
     @classmethod
