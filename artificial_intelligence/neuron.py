@@ -1,5 +1,9 @@
 import numpy as np
-from artificial_intelligence.transfer_function import sigmoid
+
+try:
+    from artificial_intelligence.transfer_function import sigmoid # "app" case
+except:
+    from transfer_function import sigmoid # "__main__" case
 
 class Neuron():
     def __init__(self, weights_np_array, transfer_function):
@@ -20,6 +24,9 @@ class Neuron():
     @classmethod
     def fromWeights(cls, weights, transfer_function):
         return cls(weights, transfer_function)
+    
+    def __len__(self):
+        return len(self.weights)
 
     def calculate_output(self, previous_layer_values):
         bias_weight = self.weights[0]
