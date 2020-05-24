@@ -20,7 +20,7 @@ class Neuron():
     @classmethod
     def fromRandom(cls, number_of_inputs, transfer_function):
         obj = cls.fromEmpty(number_of_inputs, transfer_function)
-        obj.randomize_weights(100)
+        obj.randomize_weights()
         return obj
     
     @classmethod
