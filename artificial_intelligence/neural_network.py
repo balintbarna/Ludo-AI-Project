@@ -51,7 +51,7 @@ class NeuralNetwork():
     def calculate_outputs(self):
         previous_layer_outputs = self._input
         for i in range(0, len(self)):
-            previous_layer_outputs = self.layers[i].calculate_outputs(previous_layer_outputs)
+            previous_layer_outputs = self._layers[i].calculate_outputs(previous_layer_outputs)
         return previous_layer_outputs
     
     def get_weights(self):
@@ -60,12 +60,16 @@ class NeuralNetwork():
         '''
         weights_list_list_list = []
         for i in range(0, len(self)):
-            weights_list_list_list.append(self.layers[i].get_weights())
+            weights_list_list_list.append(self._layers[i].get_weights())
         return weights_list_list_list
 
     def randomize_weights(self):
-        for i in range(0, len(self)):
-            self.layers[i].randomize_weights()
+        for layer in self._layers:
+            layer.randomize_weights()
+        
+    def introduce_mutation(self, max_mutation_amount):
+        for layer in self._layers:
+            layer.introduce_mutation(max_mutation_amount)
 
 if __name__ == "__main__":
     # only one output
