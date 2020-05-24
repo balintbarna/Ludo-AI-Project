@@ -59,6 +59,9 @@ class Neuron():
             mutation = np.random.rand() * 2 - 1
             mutation *= max_mutation_amount
             weights[i] += mutation
+    
+    def normalize(self, max_value):
+        self._weights /= max_value
 
 
 if __name__ == "__main__":

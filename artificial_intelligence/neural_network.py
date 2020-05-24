@@ -70,6 +70,10 @@ class NeuralNetwork():
     def introduce_mutation(self, max_mutation_amount):
         for layer in self._layers:
             layer.introduce_mutation(max_mutation_amount)
+    
+    def normalize(self, max_value):
+        for layer in self._layers:
+            layer.normalize(max_value)
 
 if __name__ == "__main__":
     # only one output

@@ -60,6 +60,10 @@ class NeuronLayer():
     def introduce_mutation(self, max_mutation_amount):
         for neuron in self._neurons:
             neuron.introduce_mutation(max_mutation_amount)
+    
+    def normalize(self, max_value):
+        for neuron in self._neurons:
+            neuron.normalize(max_value)
 
 if __name__ == "__main__":
     my_layer = NeuronLayer.fromEmpty(5, 5, sigmoid)
