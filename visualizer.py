@@ -14,14 +14,15 @@ def add_generation_wincounts(wincounts):
 def show_plot():
     arr = np.array(player_weights)
     arr = arr.T
-    assert len(arr) == len(weights_labels)
+    # assert len(arr) == len(weights_labels)
     for i in range(0, len(arr)):
         y = arr[i]
         x = np.arange(0, len(y))
-        plt.plot(x, y, label=weights_labels[i])
+        # plt.plot(x, y, label=weights_labels[i])
+        plt.plot(x, y)
     plt.xlabel("generations")
     plt.ylabel("weight values")
-    plt.legend()
+    # plt.legend()
     plt.show()
     plt.clf()
     
