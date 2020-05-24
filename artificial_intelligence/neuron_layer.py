@@ -77,8 +77,8 @@ class NeuronLayer():
         return lrn.abs_max(arr)
     
     def mix_weights(self, other):
-        sn = self._neurons()
-        on = other._neurons()
+        sn = self._neurons
+        on = other._neurons
         cn = []
         for i in range(0, len(self)):
             cn.append(sn[i].mix_weights(on[i]))
