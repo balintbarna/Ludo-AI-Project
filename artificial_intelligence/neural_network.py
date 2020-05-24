@@ -63,9 +63,9 @@ class NeuralNetwork():
             weights_list_list_list.append(self.layers[i].get_weights())
         return weights_list_list_list
 
-    def randomize_weights(self, percentage):
+    def randomize_weights(self):
         for i in range(0, len(self)):
-            self.layers[i].randomize_weights(percentage)
+            self.layers[i].randomize_weights()
 
 if __name__ == "__main__":
     # only one output

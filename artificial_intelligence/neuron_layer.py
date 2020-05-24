@@ -53,9 +53,9 @@ class NeuronLayer():
             weights_arr_list.append(self._neurons[i].get_weights())
         return weights_arr_list
 
-    def randomize_weights(self, percentage):
+    def randomize_weights(self):
         for neuron in self._neurons:
-            neuron.randomize_weights(percentage)
+            neuron.randomize_weights()
 
 if __name__ == "__main__":
     my_layer = NeuronLayer.fromEmpty(5, 5, sigmoid)
