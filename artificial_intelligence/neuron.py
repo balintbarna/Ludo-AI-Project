@@ -12,7 +12,7 @@ class Neuron():
 
     @classmethod
     def fromEmpty(cls, number_of_inputs, transfer_function):
-        weights = np.zeros(number_of_inputs + 1) # extra spot for bias
+        weights = np.empty(number_of_inputs + 1) # extra spot for bias
         return cls(weights, transfer_function)
     
     @classmethod
@@ -47,13 +47,9 @@ class Neuron():
         '''
         return self._weights
     
-    def randomize_weights(self, percentage):
-        fraction = percentage / 100.0
-        mask = np.random.rand(len(self._weights)) < fraction # weights length number of random doubles between 0 and 1 that are < franction; these should be changed
-        new_weights = np.random.rand(len(self._weights))
-        for i in range(0, len(self._weights)):
-            if mask[i]:
-                self._weights[i] = new_weights[i]
+    def randomize_weights(self):
+        for i in range(0, len(self)):
+            self._weights[i] = np.random.rand() * 2 - 1
 
 if __name__ == "__main__":
     my_neuron = Neuron.fromEmpty(5, sigmoid)
