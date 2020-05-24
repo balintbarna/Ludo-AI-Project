@@ -64,6 +64,14 @@ class NeuronLayer():
     def normalize(self, max_value):
         for neuron in self._neurons:
             neuron.normalize(max_value)
+    
+    def get_max_weight(self):
+        arr = np.empty(len(self))
+        for i in range(0, len(self)):
+            arr[i] = self._neurons[i].get_max_weight()
+        amax = np.max(arr)
+        amin = np.min(arr)
+        return np.where(-amin > amax, -amin, amax)
 
 if __name__ == "__main__":
     my_layer = NeuronLayer.fromEmpty(5, 5, sigmoid)

@@ -62,6 +62,12 @@ class Neuron():
     
     def normalize(self, max_value):
         self._weights /= max_value
+    
+    def get_max_weight(self):
+        arr = self.get_weights()
+        amax = np.max(arr)
+        amin = np.min(arr)
+        return np.where(-amin > amax, -amin, amax)
 
 
 if __name__ == "__main__":
