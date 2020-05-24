@@ -11,13 +11,13 @@ class Neuron():
         self.transfer_function = transfer_function
 
     @classmethod
-    def fromEmpty(cls, previous_layer_number_of_neurons, transfer_function):
-        weights = np.zeros(previous_layer_number_of_neurons + 1) # extra spot for bias
+    def fromEmpty(cls, number_of_inputs, transfer_function):
+        weights = np.zeros(number_of_inputs + 1) # extra spot for bias
         return cls(weights, transfer_function)
     
     @classmethod
-    def fromRandom(cls, previous_layer_number_of_neurons, transfer_function):
-        obj = cls.fromEmpty(previous_layer_number_of_neurons, transfer_function)
+    def fromRandom(cls, number_of_inputs, transfer_function):
+        obj = cls.fromEmpty(number_of_inputs, transfer_function)
         obj.randomize_weights(100)
         return obj
     
@@ -28,11 +28,11 @@ class Neuron():
     def __len__(self):
         return len(self.weights)
 
-    def calculate_output(self, previous_layer_values):
+    def calculate_output(self, input_values):
         bias_weight = self.weights[0]
         neuron_weights = self.weights[1:]
-        assert(len(previous_layer_values) == len(neuron_weights))
-        weighted_sum = np.sum(np.dot(previous_layer_values, neuron_weights)) + bias_weight
+        assert(len(input_values) == len(neuron_weights))
+        weighted_sum = np.sum(np.dot(input_values, neuron_weights)) + bias_weight
         calculated_output = self.transfer_function(weighted_sum)
         return calculated_output
 
