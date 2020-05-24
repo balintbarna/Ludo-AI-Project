@@ -2,8 +2,10 @@ import numpy as np
 
 try:
     from artificial_intelligence.transfer_function import sigmoid # "app" case
+    import artificial_intelligence.learning as lrn
 except:
     from transfer_function import sigmoid # "__main__" case
+    import learning as lrn
 
 class Neuron():
     def __init__(self, weights_np_array, transfer_function):
@@ -32,6 +34,9 @@ class Neuron():
     
     def __len__(self):
         return len(self._weights)
+    
+    def get_input_size(self):
+        return len(self) - 1
 
     def calculate_output(self, input_values):
         weights = self.get_weights()
@@ -65,10 +70,17 @@ class Neuron():
     
     def get_max_weight(self):
         arr = self.get_weights()
-        amax = np.max(arr)
-        amin = np.min(arr)
-        return np.where(-amin > amax, -amin, amax)
-
+        return lrn.abs_max(arr)
+    
+    def mix_weights(self, other):
+        assert len(self) == len(other)
+        sw = self.get_weights()
+        ow = other.get_weights()
+        cw = np.empty_like(sw)
+        for i in range(0, len(self)):
+            cw[i] = lrn.pick_random(sw[i], ow[i])
+        child = Neuron(cw, self._transfer_function)
+        return child
 
 if __name__ == "__main__":
     my_neuron = Neuron.fromEmpty(5, sigmoid)

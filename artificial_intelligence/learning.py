@@ -27,6 +27,11 @@ def pick_random(one, two):
     result = one if pick == 0 else two
     return result
 
+def abs_max(arr):
+    amax = np.max(arr)
+    amin = np.min(arr)
+    return np.where(-amin > amax, -amin, amax)
+
 def islist(obj):
     return isinstance(obj, list) or isinstance(obj, np.ndarray)
 

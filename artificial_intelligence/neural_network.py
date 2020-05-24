@@ -2,9 +2,11 @@ import numpy as np
 try:
     from artificial_intelligence.neuron_layer import NeuronLayer
     from artificial_intelligence.transfer_function import *
+    import artificial_intelligence.learning as lrn
 except:
     from neuron_layer import NeuronLayer
     from transfer_function import *
+    import learning as lrn
 
 class NeuralNetwork():
     def __init__(self, input_array, layers_list):
@@ -45,6 +47,9 @@ class NeuralNetwork():
     def __len__(self):
         return len(self._layers)
     
+    def get_input_size(self):
+        return len(self.get_input_array)
+    
     def get_input_array(self):
         return self._input
         
@@ -79,9 +84,16 @@ class NeuralNetwork():
         arr = np.empty(len(self))
         for i in range(0, len(self)):
             arr[i] = self._layers[i].get_max_weight()
-        amax = np.max(arr)
-        amin = np.min(arr)
-        return np.where(-amin > amax, -amin, amax)
+        return lrn.abs_max(arr)
+    
+    def mix_weights(self, other):
+        sl = self._layers()
+        ol = other._layers()
+        cl = []
+        for i in range(0, len(self)):
+            cl.append(sl[i].mix_weights(ol[i]))
+        child = NeuralNetwork(self.get_input_size(), cl)
+        return child
 
 if __name__ == "__main__":
     # only one output

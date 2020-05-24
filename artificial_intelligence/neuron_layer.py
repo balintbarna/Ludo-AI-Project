@@ -2,9 +2,11 @@ import numpy as np
 try:
     from artificial_intelligence.neuron import Neuron
     from artificial_intelligence.transfer_function import sigmoid
+    import artificial_intelligence.learning as lrn
 except:
     from neuron import Neuron
     from transfer_function import sigmoid
+    import learning as lrn
 
 class NeuronLayer():
     def __init__(self, neurons_list):
@@ -34,6 +36,9 @@ class NeuronLayer():
 
     def __len__(self):
         return len(self._calculated_outputs)
+    
+    def get_input_size(self):
+        return self._neurons[0].get_input_size()
 
     def calculate_outputs(self, previous_layer_values):
         outputs = self.get_calculated_outputs()
@@ -69,9 +74,17 @@ class NeuronLayer():
         arr = np.empty(len(self))
         for i in range(0, len(self)):
             arr[i] = self._neurons[i].get_max_weight()
-        amax = np.max(arr)
-        amin = np.min(arr)
-        return np.where(-amin > amax, -amin, amax)
+        return lrn.abs_max(arr)
+    
+    def mix_weights(self, other):
+        sn = self._neurons()
+        on = other._neurons()
+        cn = []
+        for i in range(0, len(self)):
+            cn.append(sn[i].mix_weights(on[i]))
+        child = NeuronLayer(cn)
+        return child
+            
 
 if __name__ == "__main__":
     my_layer = NeuronLayer.fromEmpty(5, 5, sigmoid)

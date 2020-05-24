@@ -20,9 +20,6 @@ class DeepAiPlayer(AbstractPlayer):
     def fromWeights(cls, weights_list_list_list):
         ann = NeuralNetwork.fromWeights(sigmoid, weights_list_list_list)
         return cls(ann)
-    
-    def getWeights(self):
-        return self.ann.get_weights()
 
     def select_piece_to_move(self, observation):
         (_, moveable_pieces, _, _, _, _) = observation
@@ -60,3 +57,25 @@ class DeepAiPlayer(AbstractPlayer):
         inputs[14] = enemy_pieces[2][1] / gm.pos_max
         inputs[15] = enemy_pieces[2][2] / gm.pos_max
         inputs[16] = enemy_pieces[2][3] / gm.pos_max
+    
+    def get_weights(self):
+        return self.ann.get_weights()
+        
+    def introduce_mutation(self, max_mutation_amount):
+        self.ann.introduce_mutation(max_mutation_amount)
+    
+    def normalize(self, max_value):
+        self.ann.normalize(max_value)
+    
+    def get_max_weight(self):
+        return self.ann.get_max_weight()
+    
+    def mix_weights(self, other):
+        child_network = self.ann.mix_weights(other.ann)
+        return DeepAiPlayer(child_network)
+
+    def make_child(self, other, mutation_amount):
+        child = self.mix_weights(other)
+        child.introduce_mutation(mutation_amount)
+        child.normalize(child.get_max_weight())
+        return child

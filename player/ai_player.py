@@ -1,6 +1,7 @@
 import numpy as np
 from artificial_intelligence.transfer_function import sigmoid
 from artificial_intelligence.neural_network import NeuralNetwork
+import artificial_intelligence.learning as lrn
 from player.abstract_player import AbstractPlayer
 import player.game_mechanics as gm
 
@@ -20,9 +21,6 @@ class AiPlayer(AbstractPlayer):
     def fromWeights(cls, weights_list_list_list):
         ann = NeuralNetwork.fromWeights(sigmoid, weights_list_list_list)
         return cls(ann)
-    
-    def getWeights(self):
-        return self.ann.get_weights()
 
     def select_piece_to_move(self, observation):
         (_, moveable_pieces, _, _, _, _) = observation
@@ -56,4 +54,25 @@ class AiPlayer(AbstractPlayer):
         inputs[3] = 1 if safe else 0
         inputs[4] = 1 if kill else 0
         inputs[5] = progress
+    
+    def get_weights(self):
+        return self.ann.get_weights()
+        
+    def introduce_mutation(self, max_mutation_amount):
+        self.ann.introduce_mutation(max_mutation_amount)
+    
+    def normalize(self, max_value):
+        self.ann.normalize(max_value)
+    
+    def get_max_weight(self):
+        return self.ann.get_max_weight()
+    
+    def mix_weights(self, other):
+        child_network = self.ann.mix_weights(other.ann)
+        return AiPlayer(child_network)
 
+    def make_child(self, other, mutation_amount):
+        child = self.mix_weights(other)
+        child.introduce_mutation(mutation_amount)
+        child.normalize(child.get_max_weight())
+        return child
