@@ -12,17 +12,17 @@ class NeuronLayer():
         self._calculated_outputs = np.zeros(len(neurons_list))
 
     @classmethod
-    def fromEmpty(cls, number_of_neurons, previous_layer_number_of_neurons, transfer_function):
+    def fromEmpty(cls, number_of_neurons, number_of_inputs, transfer_function):
         neurons_list = []
         for _ in range(0, number_of_neurons):
-            neurons_list.append(Neuron.fromEmpty(previous_layer_number_of_neurons, transfer_function))
+            neurons_list.append(Neuron.fromEmpty(number_of_inputs, transfer_function))
         return cls(neurons_list)
 
     @classmethod
-    def fromRandom(cls, number_of_neurons, previous_layer_number_of_neurons, transfer_function):
+    def fromRandom(cls, number_of_neurons, number_of_inputs, transfer_function):
         neurons_list = []
         for _ in range(0, number_of_neurons):
-            neurons_list.append(Neuron.fromRandom(previous_layer_number_of_neurons, transfer_function))
+            neurons_list.append(Neuron.fromRandom(number_of_inputs, transfer_function))
         return cls(neurons_list)
 
     @classmethod

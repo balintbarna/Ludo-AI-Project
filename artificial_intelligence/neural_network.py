@@ -15,11 +15,10 @@ class NeuralNetwork():
     def fromEmpty(cls, transfer_function, number_of_inputs, number_of_neurons_per_layer):
         layers_list = []
         number_of_layers = len(number_of_neurons_per_layer)
-        previous_layer_neurons = number_of_inputs
         for i in range(0, number_of_layers):
             current_layer_neurons = number_of_neurons_per_layer[i]
-            layers_list.append(NeuronLayer.fromEmpty(current_layer_neurons, previous_layer_neurons, transfer_function))
-            previous_layer_neurons = current_layer_neurons
+            layers_list.append(NeuronLayer.fromEmpty(current_layer_neurons, number_of_inputs, transfer_function))
+            number_of_inputs = current_layer_neurons
         input_array = np.zeros(number_of_inputs)
         return cls(input_array, layers_list)
     
@@ -27,11 +26,10 @@ class NeuralNetwork():
     def fromRandom(cls, transfer_function, number_of_inputs, number_of_neurons_per_layer):
         layers_list = []
         number_of_layers = len(number_of_neurons_per_layer)
-        previous_layer_neurons = number_of_inputs
         for i in range(0, number_of_layers):
             current_layer_neurons = number_of_neurons_per_layer[i]
-            layers_list.append(NeuronLayer.fromRandom(current_layer_neurons, previous_layer_neurons, transfer_function))
-            previous_layer_neurons = current_layer_neurons
+            layers_list.append(NeuronLayer.fromRandom(current_layer_neurons, number_of_inputs, transfer_function))
+            number_of_inputs = current_layer_neurons
         input_array = np.zeros(number_of_inputs)
         return cls(input_array, layers_list)
     
