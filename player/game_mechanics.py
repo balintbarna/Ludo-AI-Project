@@ -1,7 +1,9 @@
 start_pos = 0
 entered_pos = 1
-goal_pos = 59
-dice_enter_game = [6]
+pos_max = 59
+goal_pos = pos_max
+dice_max = 6
+dice_enter_game = [dice_max]
 star_boost_seven = [5, 18, 31, 44]
 star_boost_six = [12, 25, 38]
 safe_globes = [1, 9, 14, 22, 27, 35, 40, 48, 53]
