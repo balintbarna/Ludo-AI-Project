@@ -3,9 +3,10 @@ import numpy as np
 def create_child(dad, mom):
     if islist(dad) and islist(mom):
         assert_length(dad, mom)
-        child = []
-        for index in range(0, len(dad)):
-            child.append(create_child(dad[index], mom[index]))
+        count = len(dad)
+        child = np.empty_like(dad)
+        for index in range(0, count):
+            child[i] = create_child(dad[index], mom[index])
         assert_length(dad, child)
         return child
     else:
@@ -21,16 +22,16 @@ def introduce_mutation(weights, max_mutation_amount = 1):
             mutation *= max_mutation_amount
             weights[index] += mutation
 
-def assert_length(one, two):
-    assert len(one) == len(two)
-
 def pick_random(one, two):
     pick = np.random.randint(2)
     result = one if pick == 0 else two
     return result
 
 def islist(obj):
-    return isinstance(obj, list)
+    return isinstance(obj, list) or isinstance(obj, np.ndarray)
+
+def assert_length(one, two):
+    assert len(one) == len(two)
 
 
 if __name__ == "__main__":
