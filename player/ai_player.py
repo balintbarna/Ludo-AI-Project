@@ -21,6 +21,9 @@ class AiPlayer(AbstractPlayer):
     def fromWeights(cls, weights_list_list_list):
         ann = NeuralNetwork.fromWeights(sigmoid, weights_list_list_list)
         return cls(ann)
+    
+    def getWeights(self):
+        return self.ann.get_weights()
 
     def select_piece_to_move(self, observation):
         (_, moveable_pieces, _, _, _, _) = observation
