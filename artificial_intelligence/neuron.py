@@ -22,8 +22,13 @@ class Neuron():
         return obj
     
     @classmethod
-    def fromWeights(cls, weights, transfer_function):
-        return cls(weights, transfer_function)
+    def fromWeights(cls, weights_param, transfer_function):
+        if isinstance(weights_param, np.ndarray):
+            return cls(weights_param, transfer_function)
+        if isinstance(weights_param, list):
+            weights = np.array(weights_param)
+            return cls(weights, transfer_function)
+        raise TypeError
     
     def __len__(self):
         return len(self.weights)
@@ -52,3 +57,9 @@ class Neuron():
 
 if __name__ == "__main__":
     my_neuron = Neuron.fromEmpty(5, sigmoid)
+
+    weights = [0, 0, 1]
+    weights_arr = np.array(weights)
+    my_neuron = Neuron.fromWeights(weights, sigmoid)
+    my_neuron = Neuron.fromWeights(weights_arr, sigmoid)
+    my_neuron = Neuron.fromWeights(1, sigmoid)
